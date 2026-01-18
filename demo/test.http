@@ -1,0 +1,11 @@
+POST http://localhost:8080/join
+Content-Type: application/json
+
+{
+    "email" : "tkddnr3",
+    "nickname" : "1231"
+}
+
+###
+
+GET http://localhost:8080/members
