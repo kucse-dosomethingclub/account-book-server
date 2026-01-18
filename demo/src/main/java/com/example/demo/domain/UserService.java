@@ -14,15 +14,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(String email,String username,String rawPassword){
+    public void signUp(User user){
         /*UserRepository.findByEmail(email).ifPresent(u->{
             throw new IllegalS
         })*/
-        String encryptedPassword=passwordEncoder.encode(rawPassword);
 
-        User newUser=User.builder()
-                .email(email)
-                .username(username)
+        String encryptedPassword=passwordEncoder.encode(user.getPassword());
+
+        User newUser = User.builder()
+                .email(user.getEmail())
+                .username(user.getUsername())
                 .password(encryptedPassword)
                 .build();
 
