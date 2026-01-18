@@ -2,14 +2,31 @@ package com.example.demo.domain;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class config {
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/users/**").permitAll()
+                        .anyRequest().authenticated()
+                );
+
+        return http.build();
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // 가장 많이 사용되는 BCrypt 방식의 암호화 도구를 빈(Bean)으로 등록합니다.
         return new BCryptPasswordEncoder();
     }
 }
