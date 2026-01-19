@@ -2,7 +2,7 @@ POST http://localhost:8080/users/signup
 Content-Type: application/json
 
 {
-    "email" : "tester@konkuk.ac.kr",
+    "email" : "test13@konkuk.ac.kr",
     "username" : "Tester",
     "password" : "Password@1234"
 }

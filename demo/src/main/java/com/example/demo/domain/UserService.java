@@ -14,19 +14,27 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void signUp(User user){
+    public Boolean signUp(User user){
         /*UserRepository.findByEmail(email).ifPresent(u->{
             throw new IllegalS
         })*/
+        //email_check에서 중복이 있으면 true반환해서 앞에 !
+        if(!userRepository.email_check(user)){
+            String encryptedPassword=passwordEncoder.encode(user.getPassword());
 
-        String encryptedPassword=passwordEncoder.encode(user.getPassword());
+            User newUser = User.builder()
+                    .email(user.getEmail())
+                    .username(user.getUsername())
+                    .password(encryptedPassword)
+                    .build();
+            userRepository.saveUser(newUser);
+            return true;//저장 완료
+        }
+        else{
+            return false;//저장 실패
+        }
 
-        User newUser = User.builder()
-                .email(user.getEmail())
-                .username(user.getUsername())
-                .password(encryptedPassword)
-                .build();
 
-        userRepository.saveUser(newUser);
     }
+
 }

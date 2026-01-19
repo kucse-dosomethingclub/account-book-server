@@ -15,8 +15,12 @@ public class UserController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody User user) {
-        userService.signUp(user);
-        return "회원가입 완료";
+        if(userService.signUp(user)){
+            return "회원가입 완료";
+        }
+        else{
+            return "이메일 중복으로 회원가입 실패";
+        }
     }
 
 }
