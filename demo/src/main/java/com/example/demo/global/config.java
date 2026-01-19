@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.global;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ public class config {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**").permitAll()
+                        .requestMatchers("/users/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 );
 

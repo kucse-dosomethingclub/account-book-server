@@ -1,10 +1,7 @@
-package com.example.demo.domain;
+package com.example.demo.user;
 
-import com.example.demo.domain.User;
-import com.example.demo.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.time.OffsetDateTime;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
@@ -15,9 +12,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public Boolean signUp(User user){
-        /*UserRepository.findByEmail(email).ifPresent(u->{
-            throw new IllegalS
-        })*/
+
         //email_check에서 중복이 있으면 true반환해서 앞에 !
         if(!userRepository.email_check(user)){
             String encryptedPassword=passwordEncoder.encode(user.getPassword());
@@ -33,8 +28,17 @@ public class UserService {
         else{
             return false;//저장 실패
         }
+    }
 
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("이메일 또는 비밀번호가 일치하지 않습니다."));
 
+        if(!passwordEncoder.matches(password, user.getPassword())) {
+            throw new IllegalArgumentException("이메일 또는 비밀번호가 일치하지 않습니다.");
+        }
+        user.setPassword(null);
+        return user;
     }
 
 }

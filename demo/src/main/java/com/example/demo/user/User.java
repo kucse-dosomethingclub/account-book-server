@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.user;
 
 import lombok.*;
 
@@ -12,5 +12,5 @@ public class User {
     private String email;
     private String username;
     private String password;
-    
+
 }

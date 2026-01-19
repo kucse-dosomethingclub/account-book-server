@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.transaction;
 
 import java.time.OffsetDateTime;
 import lombok.*;
