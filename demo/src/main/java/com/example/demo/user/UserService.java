@@ -11,23 +11,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Boolean signUp(User user){
+    public User signUp(User user){
+        User signUser=userRepository.email_check(user)
+                .orElseThrow(() -> new IllegalArgumentException("이메일이 이미 존재합니다."));
+        String encryptedPassword=passwordEncoder.encode(user.getPassword());
 
-        //email_check에서 중복이 있으면 true반환해서 앞에 !
-        if(!userRepository.email_check(user)){
-            String encryptedPassword=passwordEncoder.encode(user.getPassword());
-
-            User newUser = User.builder()
-                    .email(user.getEmail())
-                    .username(user.getUsername())
-                    .password(encryptedPassword)
-                    .build();
-            userRepository.saveUser(newUser);
-            return true;//저장 완료
-        }
-        else{
-            return false;//저장 실패
-        }
+        userRepository.saveUser(signUser);
+        return signUser;//저장 완료
     }
 
     public User login(String email, String password) {

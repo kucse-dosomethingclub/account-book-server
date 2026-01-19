@@ -22,13 +22,19 @@ public class UserRepository {
         );
     }
     //true반환 => 중복 false => 중복되지 않음
-    public boolean email_check(User user){
+    public Optional<User> email_check(User user){
+        String SQL = "SELECT EXISTS(SELECT 1 FROM user_info WHERE email=?)";
         try{
-            String SQL = "SELECT EXISTS(SELECT 1 FROM user_info WHERE email=?)";
-            return jdbcTemplate.queryForObject(SQL,Boolean.class,user.getEmail());
+            if(!jdbcTemplate.queryForObject(SQL,Boolean.class,user.getEmail())){
+                return Optional.of(user);
+            }
+            else{
+                return Optional.empty();
+            }
+
         }catch(Exception e){
             //예외처리가 될 수 있으니 콘솔로 찍어서 확인하기
-            return false;
+            return Optional.empty();
         }
     }
 

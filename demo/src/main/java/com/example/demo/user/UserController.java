@@ -13,12 +13,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public String signup(@RequestBody User user) {
-        if(userService.signUp(user)){
-            return "회원가입 완료";
-        }
-        else{
-            return "이메일 중복으로 회원가입 실패";
+    public ResponseEntity<?> signup(@RequestBody User user) {
+        try{
+            User sigunupUser=userService.signUp(user);
+            return ResponseEntity.ok(user);
+        }catch(IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
