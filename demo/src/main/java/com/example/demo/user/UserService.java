@@ -15,7 +15,7 @@ public class UserService {
         User signUser=userRepository.email_check(user)
                 .orElseThrow(() -> new IllegalArgumentException("이메일이 이미 존재합니다."));
         String encryptedPassword=passwordEncoder.encode(user.getPassword());
-
+        user.setPassword(encryptedPassword);
         userRepository.saveUser(signUser);
         return signUser;//저장 완료
     }
