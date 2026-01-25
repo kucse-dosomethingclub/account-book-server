@@ -18,7 +18,7 @@ public class config {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/users/**", "/error").permitAll()
+                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/users/**", "/error").permitAll()
                         .anyRequest().authenticated()
                 );
 
