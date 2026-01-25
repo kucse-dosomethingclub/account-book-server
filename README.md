@@ -1,2 +1,3 @@
-# account_book
-가계부를 만들어보자!!!!!
+# account-book-server
+
+Repository for account-book-server
