@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import com.example.demo.jwt.JwtDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +30,15 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody UserDto.LoginRequest request) {
         try {
-            User loginUser = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
-            return ResponseEntity.ok(loginUser);
+            //User loginUser = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+            JwtDto.TokenResponse token=userService.login(request);
+            return ResponseEntity.ok(token);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 }
