@@ -9,10 +9,14 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 
 @Component
@@ -48,10 +52,12 @@ public class JwtTokenProvider {
 
     public boolean validationToken(String token){
         try{
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             //parseClaimsJwt로 토큰을 검사 하는 감별기를 사용하는것
+            //서명이 있는 토큰은 parseClaimsJws를 사용해야함
             return true;
         }catch(Exception e) {
+            System.out.println("왜 여기에 있어");
             return false;
         }
     }

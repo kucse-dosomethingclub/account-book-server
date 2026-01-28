@@ -2,9 +2,10 @@ POST http://localhost:8080/users/signup
 Content-Type: application/json
 
 {
-  "email": "3test@google.com",
+  "email": "10test@google.com",
   "username": "구글러",
-  "password": "googlepass"
+  "password": "googlepass",
+  "role": "ROLE_USER"
 }
 
 ###
@@ -13,12 +14,12 @@ POST http://localhost:8080/users/login
 Content-Type: application/json
 
 {
-  "email": "3test@google.com",
+  "email": "10test@google.com",
   "password": "googlepass"
 }
 
 ###
 
 GET http://localhost:8080/test/test_source
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzdGVzdEBnb29nbGUuY29tIiwiaWF0IjoxNzY5NTI5NzMwLCJleHAiOjE3Njk1MzE1MzB9.ez1atAVSPhBouxeBhcsCro0awlC4H8yPQmj0tgvhkRg
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMHRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc2OTYwNTY2OSwiZXhwIjoxNzY5NjA3NDY5fQ.xZgj1stBUdjG_C7wsrsWfd6dtuUa8w3gWFtidny-eTQ
 

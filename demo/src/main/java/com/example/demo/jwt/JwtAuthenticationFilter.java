@@ -28,10 +28,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(token!=null&& jwtTokenProvider.validationToken(token)){
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             //토큰 유효성 검사
+            System.out.println("현재 유저의 권한: " + authentication.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
             //스프링 서큐리티에 접속자 저장
         }
-
         filterChain.doFilter(request,response);
         //다음으로 넘어가라
     }
@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private  String resolveToken(HttpServletRequest request){
         String bearerToken = request.getHeader("Authorization");
         //헤더에서 Authorization에 해당하는거 가져옴
-        if(StringUtils.hasText(bearerToken)&& bearerToken.startsWith("Bearer")){
+        if(StringUtils.hasText(bearerToken)&& bearerToken.startsWith("Bearer ")){
             return bearerToken.substring(7);
             //7부터 끝까지 가져와라
         }
