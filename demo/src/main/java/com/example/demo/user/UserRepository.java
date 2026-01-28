@@ -13,13 +13,12 @@ public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public void saveUser(User user) {
-        String SQL = "INSERT INTO user_info (email, username, password,role) VALUES (?, ?, ?, ?)";
+        String SQL = "INSERT INTO user_info (email, username, password) VALUES (?, ?, ?)";
 
         jdbcTemplate.update(SQL,
                 user.getEmail(),
                 user.getUsername(),
-                user.getPassword(),
-                user.getRole()
+                user.getPassword()
         );
     }
     //true반환 => 중복 false => 중복되지 않음

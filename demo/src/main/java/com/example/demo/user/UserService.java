@@ -32,8 +32,8 @@ public class UserService {
         }
         user.setPassword(null);
         //유저한테 넘어갈때, 암호화 된 비밀번호가 넘어가지 않도록 null로 해준다.
-        String token=jwtTokenProvider.createToken(user.getEmail(),user.getRole());
-        return new JwtDto.TokenResponse(token, "Bearer");
+        String token=jwtTokenProvider.createToken(user.getEmail());
+        return new JwtDto.TokenResponse(token);
         //토큰 Dto를 넘김
     }
 

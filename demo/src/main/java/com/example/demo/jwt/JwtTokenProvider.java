@@ -33,11 +33,9 @@ public class JwtTokenProvider {
         //바이트 배열을 암호화를 사용해서 키로 사용
         this.validityInMilliseconds=validityInMilliseconds;
     }
-    public String createToken(String email,String role){
+    public String createToken(String email){
         //JWT payload에 들어갈 내용
         Claims claims = Jwts.claims().setSubject(email);
-        //추가로 넣을 내용
-        claims.put("role",role);
 
         Date now = new Date();
         Date validity = new Date(now.getTime()+validityInMilliseconds);
