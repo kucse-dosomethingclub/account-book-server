@@ -21,6 +21,20 @@ public class UserRepository {
                 user.getPassword()
         );
     }
+    public Optional<User> password_ch(User user,String newpassword){
+        String SQL = "UPDATE user_info SET password=? WHERE email=?";
+        try{
+            int result = jdbcTemplate.update(SQL,newpassword,user.getEmail());
+            if(result>0){
+                return Optional.of(user);
+            }
+            return Optional.empty();
+        }catch (Exception e){
+            System.out.println("비밀번호 바꾸는데 예외 발생"+e.getMessage());
+            return Optional.empty();
+        }
+    }
+
     //true반환 => 중복 false => 중복되지 않음
     public Optional<User> email_check(User user){
         String SQL = "SELECT EXISTS(SELECT 1 FROM user_info WHERE email=?)";
@@ -50,6 +64,8 @@ public class UserRepository {
                     .build(),
                     email
             );
+            //rs = DB에서 가져온 데이터
+            //rowNum = 현재 몇번째줄을 처리하고 있는지
             return Optional.ofNullable(foundUser);
         } catch (Exception e) {
             return Optional.empty();

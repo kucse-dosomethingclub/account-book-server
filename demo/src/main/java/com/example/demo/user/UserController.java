@@ -39,6 +39,15 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PostMapping("/password_change")
+    public ResponseEntity<?> password_change(@RequestBody UserDto.password_ch request){
+        try{
+            User user=userService.psaaword_change(request);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 
 }

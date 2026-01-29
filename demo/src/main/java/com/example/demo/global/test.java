@@ -16,5 +16,6 @@ public class test {
 }
 
 
-//그리고 role를 어떻게 줄지 로직 짜기 => 생각해봐야 할듯....
+//refresh token을 어떻게 할지.....
+
 
