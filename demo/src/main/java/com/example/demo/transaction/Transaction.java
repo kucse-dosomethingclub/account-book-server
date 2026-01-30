@@ -13,7 +13,7 @@ public class Transaction {
     private Long id;
     private Long userid;
     private Long amount;
-    private OffsetDateTime transaction_data;
+    private OffsetDateTime transaction_date;
     private Long category_id;
     private Long source_id;
     private String memo;

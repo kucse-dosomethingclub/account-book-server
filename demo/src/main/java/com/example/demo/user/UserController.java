@@ -23,12 +23,6 @@ public class UserController {
         }
     }
 
-    @Data
-    public static class LoginRequest {
-        private String email;
-        private String password;
-    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto.LoginRequest request) {
         try {
