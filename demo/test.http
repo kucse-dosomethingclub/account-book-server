@@ -29,6 +29,16 @@ Content-Type: application/json
 
 
 ###
+POST http://localhost:8080/users/delete_user
+Content-Type: application/json
+
+{
+  "email": "10test@google.com",
+  "password": "awd"
+}
+
+
+###
 
 GET http://localhost:8080/test/test_source
 Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMHRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc2OTYwNjY3MiwiZXhwIjoxNzY5NjA4NDcyfQ.uzFL74-LBt9P5GYMTDNtYHdrc-99ryZsVAnwtIJlsUw

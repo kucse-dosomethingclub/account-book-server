@@ -40,11 +40,26 @@ public class UserController {
         }
     }
     @PostMapping("/password_change")
-    public ResponseEntity<?> password_change(@RequestBody UserDto.password_ch request){
+    public ResponseEntity<?> password_change(@RequestBody UserDto.LoginRequest request){
         try{
             User user=userService.psaaword_change(request);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+    //delete반환을 어떻게 할지....
+    @PostMapping("/delete_user")
+    public ResponseEntity<?> delete_user(@RequestBody UserDto.LoginRequest request){
+        try{
+            java.lang.Boolean delete =userService.delete_user(request);
+            if (delete) {
+                return ResponseEntity.ok(delete);
+            }
+            return ResponseEntity.ok(delete);
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

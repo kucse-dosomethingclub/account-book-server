@@ -21,17 +21,29 @@ public class UserRepository {
                 user.getPassword()
         );
     }
-    public Optional<User> password_ch(User user,String newpassword){
+    public Optional<User> password_ch(User user,String password){
         String SQL = "UPDATE user_info SET password=? WHERE email=?";
         try{
-            int result = jdbcTemplate.update(SQL,newpassword,user.getEmail());
+            int result = jdbcTemplate.update(SQL,password,user.getEmail());
             if(result>0){
                 return Optional.of(user);
             }
             return Optional.empty();
         }catch (Exception e){
-            System.out.println("비밀번호 바꾸는데 예외 발생"+e.getMessage());
             return Optional.empty();
+        }
+    }
+
+    public Boolean delete_U(User user){
+        String SQL = "DELETE FROM user_info WHERE email=?";
+        try{
+            int result = jdbcTemplate.update(SQL,user.getEmail());
+            if(result>0){
+                return true;
+            }
+            return false;
+        }catch(Exception e){
+            return false;
         }
     }
 

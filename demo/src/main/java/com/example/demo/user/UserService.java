@@ -39,16 +39,25 @@ public class UserService {
         //토큰 Dto를 넘김
     }
 
-    public User psaaword_change(UserDto.password_ch request) {
+    public User psaaword_change(UserDto.LoginRequest request) {
         User user=userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
         //.orElseThrow()는 Repository에서 optional으로 넘겨줘서 안에 값이 없으면 처리한다.
         //IllegalArgmentException : 자바 표준 예외
-        String encryptedPassword=passwordEncoder.encode(request.newpassword());
-        user.setPassword(encryptedPassword);
+        String encryptedPassword=passwordEncoder.encode(request.password());
         User change_user=userRepository.password_ch(user,encryptedPassword)
                 .orElseThrow(()->new IllegalArgumentException("예외 발생"));
+        change_user.setPassword(encryptedPassword);
         return change_user;
+    }
 
+    public Boolean delete_user(UserDto.LoginRequest request){
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(()-> new IllegalArgumentException("가입되지 않은 이메일입니다."));
+        Boolean delete = userRepository.delete_U(user);
+        if(delete){
+            return true;
+        }
+        return false;
     }
 }
