@@ -27,8 +27,11 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserDto.LoginRequest request) {
         try {
             //User loginUser = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
-            JwtDto.TokenResponse token=userService.login(request);
-            return ResponseEntity.ok(token);
+            JwtDto.TokenResponse token = userService.login(request);
+            UserDto.LoginRequest ResponseDto = new UserDto.LoginRequest(request.email(), request.password(), token.accessToken(), token.refreshToken());
+
+            return ResponseEntity.ok(ResponseDto);
+            //토큰만 넘겨줘도 될지...
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

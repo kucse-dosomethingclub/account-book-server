@@ -16,6 +16,6 @@ public class test {
 }
 
 
-//refresh token을 어떻게 할지.....
+//로그아웃에 대비해서 black list token을 만들어서 막기
 
 

@@ -1,5 +1,6 @@
 package com.example.demo.user;
 
+import com.example.demo.jwt.JwtDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,8 +22,19 @@ public class UserRepository {
                 user.getPassword()
         );
     }
+
+    public void login(String email, String refreshToken){
+        String SQL = "UPDATE user_info SET refreshtoken = ? WHERE email = ?";
+        try{
+            jdbcTemplate.update(SQL, refreshToken, email);
+        }catch (Exception e){
+            return;
+        }
+
+    }
+
     public Optional<User> password_ch(User user,String password){
-        String SQL = "UPDATE user_info SET password=? WHERE email=?";
+        String SQL = "UPDATE user_info SET password = ? WHERE email = ?";
         try{
             int result = jdbcTemplate.update(SQL,password,user.getEmail());
             if(result>0){
