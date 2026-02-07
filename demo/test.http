@@ -13,8 +13,18 @@ POST http://localhost:8080/users/login
 Content-Type: application/json
 
 {
-  "email": "10test@google.com",
+  "email": "11test@google.com",
   "password": "googlepass"
+}
+###
+POST http://localhost:8080/users/tokenExpired
+Content-Type: application/json
+
+{
+  "email": "11test@google.com",
+  "password": "googlepass",
+  "accessToken":"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMXRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDQ0MzgzNywiZXhwIjoxNzcwNDQzOTU3fQ.6V3Y1n1q1g0Tg4RjWr4cA6_z_xGmibtxiOfg8SdPxHY",
+  "refreshToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMXRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDQ0MzgzNywiZXhwIjoxNzcxNjUzNDM3fQ.YzRMKv4JMNn6zXfizNkh8Mm-OOLTAIjWEBy_gM7IwXE"
 }
 
 ###
@@ -41,8 +51,8 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/test/test_source
-Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMHRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDM1OTkzNiwiZXhwIjoxNzcwMzU5OTk2fQ.UMar4tYbjBqZ6E8_hVXieHQgfdhTkTibb6NtuE8V0bY
-Authorization_refresh:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMHRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDM1OTkzNywiZXhwIjoxNzcxNTY5NTM3fQ.XD9OH5veyy_7vRve7jJ0ZLIqGuoie-6b60JyhgXwrSc
+Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMXRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDQ0NDI2NSwiZXhwIjoxNzcwNDQ0Mzg1fQ.2edjlMjp1_Gv-NcUnABynUWpqK5GUV0JHcD-RSGpBQo
+Authorization_refresh:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMXRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDQ0MzgzNywiZXhwIjoxNzcxNjUzNDM3fQ.YzRMKv4JMNn6zXfizNkh8Mm-OOLTAIjWEBy_gM7IwXE
 
 
 

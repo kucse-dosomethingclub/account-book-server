@@ -25,27 +25,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //HTTP에서 토큰 가져오기
         JwtDto.TokenResponse JwtToken = resolveToken(request);
 
-        if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken)){
+        if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken)==1){
+            System.out.println("access token 인증 완료");
             Authentication authentication = jwtTokenProvider.getAuthentication(JwtToken.accessToken());
             //토큰 유효성 검사
             SecurityContextHolder.getContext().setAuthentication(authentication);
             //스프링 서큐리티에 접속자 저장
         }
-        else{
-            //access 재발급 로직
-            System.out.println("재발급 로직 들어옴");
-            String newAccessToken = jwtTokenProvider.validationRefreshToken(JwtToken != null ? JwtToken.refreshToken() : null);
-            if(newAccessToken != null){
-                JwtDto.TokenResponse newJwtToken = new JwtDto.TokenResponse(newAccessToken, JwtToken.refreshToken());
-                Authentication authentication1 = jwtTokenProvider.getAuthentication(newJwtToken.accessToken());
-                //토큰 유효성 검사
-                System.out.println("재발급 로직 들어옴2");
-                SecurityContextHolder.getContext().setAuthentication(authentication1);
-                //스프링 서큐리티에 접속자 저장
-            }
+        else if(jwtTokenProvider.validationAccessToken(JwtToken)==2){
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json;charest=UTF-8");
+            String errormessage = "{\"status\": 600, \"message\":\"access token expired\"}";
+            response.getWriter().write(errormessage);
+            return;
         }
         filterChain.doFilter(request,response);
         //다음으로 넘어가라
+//        else{
+//            //access 재발급 로직
+//            System.out.println("재발급 로직 들어옴");
+//
+//            System.out.println(newAccessToken);
+//
+//        }
+
     }
 
     private JwtDto.TokenResponse resolveToken(HttpServletRequest request){

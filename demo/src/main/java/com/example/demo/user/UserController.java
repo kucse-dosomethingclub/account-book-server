@@ -1,7 +1,6 @@
 package com.example.demo.user;
 
 import com.example.demo.jwt.JwtDto;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +25,26 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserDto.LoginRequest request) {
         try {
-            //User loginUser = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
             JwtDto.TokenResponse token = userService.login(request);
             UserDto.LoginRequest ResponseDto = new UserDto.LoginRequest(request.email(), request.password(), token.accessToken(), token.refreshToken());
-
             return ResponseEntity.ok(ResponseDto);
-            //토큰만 넘겨줘도 될지...
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+    @PostMapping("/tokenExpired")
+    public ResponseEntity<?> tokenExpired(@RequestBody UserDto.LoginRequest request){
+        try{
+            JwtDto.TokenResponse newton = userService.newToken(request);
+            UserDto.LoginRequest ResponseDto = new UserDto.LoginRequest(request.email(), request.password(), newton.accessToken(), request.refreshToken());
+            return ResponseEntity.ok(ResponseDto);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
     @PostMapping("/password_change")
     public ResponseEntity<?> password_change(@RequestBody UserDto.LoginRequest request){
         try{

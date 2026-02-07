@@ -62,4 +62,14 @@ public class UserService {
         }
         return false;
     }
+
+    public JwtDto.TokenResponse newToken(UserDto.LoginRequest request) {
+
+        String newAccessToken = jwtTokenProvider.validationRefreshToken(request.refreshToken() != null ? request.refreshToken() : null);
+        JwtDto.TokenResponse newJwtToken = null;
+        if(newAccessToken != null){
+            newJwtToken = new JwtDto.TokenResponse(newAccessToken, request.refreshToken());
+        }
+        return newJwtToken;
+    }
 }

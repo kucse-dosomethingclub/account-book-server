@@ -72,14 +72,17 @@ public class JwtTokenProvider {
     }
 
 
-    public boolean validationAccessToken(JwtDto.TokenResponse JwtToken){
+    public int validationAccessToken(JwtDto.TokenResponse JwtToken){
         try{
             Jwts.parserBuilder().setSigningKey(accessKey).build().parseClaimsJws(JwtToken.accessToken());
             //parseClaimsJwt로 토큰을 검사 하는 감별기를 사용하는것
             //서명이 있는 토큰은 parseClaimsJws를 사용해야함
-            return true;
+            return 1;
+        } catch(ExpiredJwtException e){
+            System.out.println("access 토큰 만료");
+            return 2;
         } catch(Exception e) {
-            return false;
+            return 3;
         }
     }
 
@@ -88,10 +91,12 @@ public class JwtTokenProvider {
         String SQL1 = "SELECT email FROM user_info WHERE refreshToken = ?";
         try {
             if (jdbcTemplate.queryForObject(SQL, Boolean.class,refreshToken)){
+                System.out.println("검증 SQL문 실행");
                 String email = jdbcTemplate.queryForObject(SQL1, String.class, refreshToken);
                 return createAccessToken(email);
             }
             else{
+                System.out.println("SQL문 거짓");
                 return null;
             }
         }catch (Exception e){
