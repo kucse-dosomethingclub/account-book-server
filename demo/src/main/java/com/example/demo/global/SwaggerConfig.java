@@ -13,13 +13,19 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI(){
-        String jwtSchemeName = "jwtAuth";
+        String accessTokenScheme = "jwtAuth";
+        String refreshTokenHeader = "Authorization_refresh";
 
         SecurityScheme securityScheme = new SecurityScheme()
-                .name(jwtSchemeName)
+                .name(accessTokenScheme)
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
                 .bearerFormat("JWT");
+
+        SecurityScheme refreshScheme = new SecurityScheme()
+                .name(refreshTokenHeader)
+                .type(SecurityScheme.Type.APIKEY)
+                .in(SecurityScheme.In.HEADER);
 
         Info info = new Info()
                 .title("가계부 API")
@@ -27,8 +33,12 @@ public class SwaggerConfig {
                 .description("가계부 프로젝트 백엔드 API 명세서");
 
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList(jwtSchemeName))
-                .components(new Components().addSecuritySchemes(jwtSchemeName, securityScheme))
+                .addSecurityItem(new SecurityRequirement()
+                        .addList(accessTokenScheme)
+                        .addList(refreshTokenHeader))
+                .components(new Components()
+                        .addSecuritySchemes(accessTokenScheme, securityScheme)
+                        .addSecuritySchemes(refreshTokenHeader, refreshScheme))
                 .info(info);
     }
 }

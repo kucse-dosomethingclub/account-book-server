@@ -12,5 +12,5 @@ public class Category {
     private Long id;
     private Long userid;
     private String name;
-    private String type;
+    private CategoryType type;
 }

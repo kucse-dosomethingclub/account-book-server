@@ -35,6 +35,7 @@ public class config {
                 //접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/users/**", "/error").permitAll()
+                        .requestMatchers("/api/cateogires/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 //.authorizeHttpRequests(auth -> auth
