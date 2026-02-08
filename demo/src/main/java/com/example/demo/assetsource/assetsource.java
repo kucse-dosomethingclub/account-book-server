@@ -1,5 +1,6 @@
 package com.example.demo.assetsource;
 
+import com.example.demo.category.CategoryType;
 import lombok.*;
 
 @Getter
@@ -12,5 +13,5 @@ public class assetsource {
     private Long id;
     private Long userid;
     private String name;
-    private String type;
+    private CategoryType type;
 }
