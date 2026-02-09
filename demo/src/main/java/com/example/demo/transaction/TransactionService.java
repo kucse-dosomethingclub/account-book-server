@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +29,12 @@ public class TransactionService {
                 .build();
 
         transactionRepository.addTransaction(transaction);
+    }
+
+    public List<Transaction> getTransaction(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        return transactionRepository.getTransactions(user.getId());
     }
 }

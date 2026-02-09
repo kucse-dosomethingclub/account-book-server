@@ -5,10 +5,9 @@ import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/trans")
@@ -21,5 +20,11 @@ public class TransactionController {
     public ResponseEntity<String> newTransaction(@RequestBody TransactionDto.transactionRequest requestDto, @AuthenticationPrincipal String email) {
         transactionService.saveTransaction(requestDto, email);
         return ResponseEntity.status(HttpStatus.CREATED).body("가계부 내역이 저장되었습니다.");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Transaction>> getTransactions(@AuthenticationPrincipal String email) {
+        List<Transaction> transactions = transactionService.getTransaction(email);
+        return ResponseEntity.ok(transactions);
     }
 }
