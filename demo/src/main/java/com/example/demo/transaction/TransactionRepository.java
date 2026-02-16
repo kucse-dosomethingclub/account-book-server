@@ -28,19 +28,18 @@ public class TransactionRepository {
     }
 
     private final RowMapper<Transaction> transactionRowMapper = (rs, rowNum) -> {
-        Transaction transaction = new Transaction();
-        transaction.setId(rs.getLong("id"));
-        transaction.setUserid(rs.getLong("userid"));
-        transaction.setAmount(rs.getLong("amount"));
-        transaction.setTransaction_date(rs.getObject("transaction_date", OffsetDateTime.class));
-        transaction.setCategory_id(rs.getLong("category_id"));
-        transaction.setSource_id(rs.getLong("source_id"));
-        transaction.setMemo(rs.getString("memo"));
-        return transaction;
+        return Transaction.builder()
+                .id(rs.getLong("id"))
+                .amount(rs.getLong("amount"))
+                .transaction_date(rs.getObject("transaction_date", OffsetDateTime.class))
+                .category_id(rs.getLong("category_id"))
+                .source_id(rs.getLong("source_id"))
+                .memo(rs.getString("memo"))
+                .build();
     };
 
     public List<Transaction> getTransactions(Long userId) {
-        String SQL = "SELECT * FROM transaction WHERE userid = ?";
+        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ?";
 
         List<Transaction> transactions = jdbcTemplate.query(SQL, transactionRowMapper, userId);
         return transactions;

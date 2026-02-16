@@ -23,8 +23,8 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Transaction>> getTransactions(@AuthenticationPrincipal String email) {
-        List<Transaction> transactions = transactionService.getTransaction(email);
+    public ResponseEntity<List<TransactionDto.transactionResponse>> getTransactions(@AuthenticationPrincipal String email) {
+        List<TransactionDto.transactionResponse> transactions = transactionService.getTransaction(email);
         return ResponseEntity.ok(transactions);
     }
 }

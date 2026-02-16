@@ -31,10 +31,21 @@ public class TransactionService {
         transactionRepository.addTransaction(transaction);
     }
 
-    public List<Transaction> getTransaction(String userEmail) {
+    public List<TransactionDto.transactionResponse> getTransaction(String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        return transactionRepository.getTransactions(user.getId());
+        List<Transaction> transactions = transactionRepository.getTransactions(user.getId());
+
+        return transactions.stream()
+                .map(t -> new TransactionDto.transactionResponse(
+                        t.getId(),
+                        t.getAmount(),
+                        t.getTransaction_date(),
+                        t.getCategory_id(),
+                        t.getSource_id(),
+                        t.getMemo()
+                ))
+                .toList();
     }
 }
