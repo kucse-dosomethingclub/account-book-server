@@ -1,6 +1,7 @@
 package com.example.demo.user;
 
 import com.example.demo.jwt.JwtDto;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +33,12 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-    @PostMapping("/tokenExpired")
-    public ResponseEntity<?> tokenExpired(@RequestBody UserDto.LoginRequest request){
+    @GetMapping("/tokenExpired")
+    public ResponseEntity<?> tokenExpired(HttpServletRequest request){
+        String refreshToken = request.getHeader("Authorization_refresh");
         try{
-            JwtDto.TokenResponse newton = userService.newToken(request);
-            UserDto.LoginRequest ResponseDto = new UserDto.LoginRequest(request.email(), request.password(), newton.accessToken(), request.refreshToken());
+            JwtDto.TokenResponse newton = userService.newToken(refreshToken);
+            UserDto.accessToken ResponseDto = new UserDto.accessToken(newton.accessToken());
             return ResponseEntity.ok(ResponseDto);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());

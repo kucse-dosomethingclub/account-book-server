@@ -63,12 +63,12 @@ public class UserService {
         return false;
     }
 
-    public JwtDto.TokenResponse newToken(UserDto.LoginRequest request) {
+    public JwtDto.TokenResponse newToken(String refreshToken) {
 
-        String newAccessToken = jwtTokenProvider.validationRefreshToken(request.refreshToken() != null ? request.refreshToken() : null);
+        String newAccessToken = jwtTokenProvider.validationRefreshToken(refreshToken);
         JwtDto.TokenResponse newJwtToken = null;
         if(newAccessToken != null){
-            newJwtToken = new JwtDto.TokenResponse(newAccessToken, request.refreshToken());
+            newJwtToken = new JwtDto.TokenResponse(newAccessToken, refreshToken);
         }
         return newJwtToken;
     }

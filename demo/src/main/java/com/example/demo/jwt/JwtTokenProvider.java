@@ -109,7 +109,9 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token).getBody().getSubject();
         //getBody => 내용물을 열고
         //getSubject => email을 가져와라
-        return new UsernamePasswordAuthenticationToken(email,"",null);
+        return new UsernamePasswordAuthenticationToken(email,"",Collections.emptyList());
+        //Collections.emptyList() => 수정 불가능한 객체가 반환된다 => 세번째 인자가 null이면 권한이 false로 들어가서
+        // 저렇게 빈 객체라도 넣어줘야 한다.
         //스프링 서큐리티가 인증된 사람이라고 인식하는 양식 =>
         // 첫번째는 주체 즉, 유저의 이메일이나 아이디,
         // 두번째는 비밀번호인데 JWT로 인증을 해서 ""을 사용,

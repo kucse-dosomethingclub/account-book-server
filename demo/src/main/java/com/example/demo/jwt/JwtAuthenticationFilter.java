@@ -24,7 +24,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain filterChain) throws ServletException,IOException{
         //HTTP에서 토큰 가져오기
         JwtDto.TokenResponse JwtToken = resolveToken(request);
-
+        String path = request.getRequestURI();
+        //URI는 순수 경로만 뽑아서 준다. 즉, /user/login 처럼 이것만 뽑아서 path에 준다.
+        if(path.startsWith("/api/tokenExpired")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+        //tokenExpired일때는 access 검증 뛰어넘기
         if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken)==1){
             System.out.println("access token 인증 완료");
             Authentication authentication = jwtTokenProvider.getAuthentication(JwtToken.accessToken());

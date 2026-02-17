@@ -31,10 +31,11 @@ public class config {
                 //세션을 사용하지 않겠다
                 .sessionManagement(session->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                //세션을 사용을 안해서 login security 필터가 그냥 넘어간다.
 
                 //접근 권한 설정
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/api/login", "/api/signup").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/api/login", "/api/signup","/api/tokenExpired").permitAll()
                         .anyRequest().authenticated()
                 )
                 //.authorizeHttpRequests(auth -> auth

@@ -50,6 +50,18 @@ Content-Type: application/json
 
 ###
 
+POST http://localhost:8080/test
+Content-Type: application/json
+
+{
+  "email": "10test@google.com",
+  "username": "구글러",
+  "password": "googlepass"
+}
+
+
+###
+
 GET http://localhost:8080/test/test_source
 Authorization:Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMXRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDQ0NDI2NSwiZXhwIjoxNzcwNDQ0Mzg1fQ.2edjlMjp1_Gv-NcUnABynUWpqK5GUV0JHcD-RSGpBQo
 Authorization_refresh:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMXRlc3RAZ29vZ2xlLmNvbSIsImlhdCI6MTc3MDQ0MzgzNywiZXhwIjoxNzcxNjUzNDM3fQ.YzRMKv4JMNn6zXfizNkh8Mm-OOLTAIjWEBy_gM7IwXE
