@@ -2,6 +2,8 @@ package com.example.demo.user;
 
 import com.example.demo.jwt.JwtDto;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +24,9 @@ public class UserController {
             description = "이메일과 비밀번호로 회원가입을 진행합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원가입 성공")
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "회원가입 성공")
     })
     public ResponseEntity<?> signup(@RequestBody User user) {
         try{
@@ -39,31 +43,44 @@ public class UserController {
             description = "이메일과 비밀번호로 로그인을 진행합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공")
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "로그인 성공",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.LoginResponse.class))
+                    )
     })
-    public ResponseEntity<?> login(@RequestBody UserDto.LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody() UserDto.LoginRequest request) {
         try {
             JwtDto.TokenResponse token = userService.login(request);
-            UserDto.LoginRequest ResponseDto = new UserDto.LoginRequest(request.email(), request.password(), token.accessToken(), token.refreshToken());
+            UserDto.LoginResponse ResponseDto = new UserDto.LoginResponse(token.accessToken(), token.refreshToken());
             return ResponseEntity.ok(ResponseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
     @GetMapping("/tokenExpired")
     @Operation(
             summary = "access 재발급 엔드포인트",
             description = "refresh token을 사용해서 access token 재발급을 진행합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "access 재발급 성공"),
-            @ApiResponse(responseCode = "403", description = "access 재발급 실패")
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "access token 재발급 성공",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDto.accessTokenResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "access token 재발급 실패"
+            )
     })
     public ResponseEntity<?> tokenExpired(HttpServletRequest request){
         String refreshToken = request.getHeader("Authorization_refresh");
         try{
             JwtDto.TokenResponse newton = userService.newToken(refreshToken);
-            UserDto.accessToken ResponseDto = new UserDto.accessToken(newton.accessToken());
+            UserDto.accessTokenResponse ResponseDto = new UserDto.accessTokenResponse(newton.accessToken());
             return ResponseEntity.ok(ResponseDto);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
