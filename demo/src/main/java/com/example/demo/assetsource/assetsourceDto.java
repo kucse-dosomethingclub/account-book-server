@@ -9,4 +9,9 @@ public class assetsourceDto {
             String name,
             CategoryType type
     ) {}
+
+    public record assetsourceResponse(
+            Long id,
+            String name
+    ) {}
 }
