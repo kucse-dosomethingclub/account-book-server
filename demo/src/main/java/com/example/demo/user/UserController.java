@@ -30,7 +30,7 @@ public class UserController {
     })
     public ResponseEntity<?> signup(@RequestBody User user) {
         try{
-            User sigunupUser=userService.signUp(user);
+            User sigunupUser = userService.signUp(user);
             return ResponseEntity.ok(user);
         }catch(IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -59,11 +59,10 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/tokenExpired")
     @Operation(
             summary = "access 재발급 엔드포인트",
-            description = "refresh token을 사용해서 access token 재발급을 진행합니다."
+            description = "access token과 refresh token을 받아서 refresh token을 사용해서 access token 재발급을 진행합니다."
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -79,15 +78,13 @@ public class UserController {
     public ResponseEntity<?> tokenExpired(HttpServletRequest request){
         String refreshToken = request.getHeader("Authorization_refresh");
         try{
-            JwtDto.TokenResponse newton = userService.newToken(refreshToken);
-            UserDto.accessTokenResponse ResponseDto = new UserDto.accessTokenResponse(newton.accessToken());
+            JwtDto.TokenResponse newtoken = userService.newToken(refreshToken);
+            UserDto.accessTokenResponse ResponseDto = new UserDto.accessTokenResponse(newtoken.accessToken());
             return ResponseEntity.ok(ResponseDto);
         }catch (IllegalArgumentException e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 
     @PostMapping("/password_change")
     @Operation(
@@ -99,13 +96,12 @@ public class UserController {
     })
     public ResponseEntity<?> password_change(@RequestBody UserDto.LoginRequest request){
         try{
-            User user=userService.psaaword_change(request);
+            User user = userService.psaaword_change(request);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
     //delete반환을 어떻게 할지....
     @PostMapping("/delete_user")
@@ -118,7 +114,7 @@ public class UserController {
     })
     public ResponseEntity<?> delete_user(@RequestBody UserDto.LoginRequest request){
         try{
-            java.lang.Boolean delete =userService.delete_user(request);
+            java.lang.Boolean delete = userService.delete_user(request);
             if (delete) {
                 return ResponseEntity.ok(delete);
             }
@@ -127,6 +123,4 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }
