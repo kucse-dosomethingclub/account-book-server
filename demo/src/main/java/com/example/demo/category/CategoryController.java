@@ -36,7 +36,7 @@ public class CategoryController {
 
     @Operation(
             summary = "카테고리 목록 확인 엔드포인트",
-            description = "카테고리 목록을 확입합니다."
+            description = "카테고리 목록을 확인합니다."
     )
     @ApiResponses(value = {
             @ApiResponse(
