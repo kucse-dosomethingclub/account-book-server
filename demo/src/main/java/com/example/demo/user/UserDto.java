@@ -7,7 +7,7 @@ public class UserDto {
     public record LoginRequest(
             @Schema(description = "이메일", example = "100test@google.com")
             String email,
-            @Schema(description = "비밀번호", example = "googlepassward")
+            @Schema(description = "비밀번호", example = "googlepassword")
             String password
     ){}
 
