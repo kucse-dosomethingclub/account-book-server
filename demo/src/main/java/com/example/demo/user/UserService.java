@@ -17,9 +17,9 @@ public class UserService {
     private final JwtTokenProvider jwtTokenProvider;
 
     public User signUp(User user){
-        User signUser=userRepository.email_check(user)
+        User signUser = userRepository.email_check(user)
                 .orElseThrow(() -> new IllegalArgumentException("이메일이 이미 존재합니다."));
-        String encryptedPassword=passwordEncoder.encode(user.getPassword());
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptedPassword);
         userRepository.saveUser(signUser);
         return signUser;//저장 완료
@@ -42,12 +42,12 @@ public class UserService {
     }
 
     public User psaaword_change(UserDto.LoginRequest request) {
-        User user=userRepository.findByEmail(request.email())
+        User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
         //.orElseThrow()는 Repository에서 optional으로 넘겨줘서 안에 값이 없으면 처리한다.
         //IllegalArgmentException : 자바 표준 예외
-        String encryptedPassword=passwordEncoder.encode(request.password());
-        User change_user=userRepository.password_ch(user,encryptedPassword)
+        String encryptedPassword = passwordEncoder.encode(request.password());
+        User change_user = userRepository.password_ch(user,encryptedPassword)
                 .orElseThrow(()->new IllegalArgumentException("예외 발생"));
         change_user.setPassword(encryptedPassword);
         return change_user;

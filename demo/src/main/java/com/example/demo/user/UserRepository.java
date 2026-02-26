@@ -15,12 +15,16 @@ public class UserRepository {
 
     public void saveUser(User user) {
         String SQL = "INSERT INTO user_info (email, username, password) VALUES (?, ?, ?)";
+        try{
+            jdbcTemplate.update(SQL,
+                    user.getEmail(),
+                    user.getUsername(),
+                    user.getPassword()
+            );
+        }catch (Exception e){
+            return;
+        }
 
-        jdbcTemplate.update(SQL,
-                user.getEmail(),
-                user.getUsername(),
-                user.getPassword()
-        );
     }
 
     public void login(String email, String refreshToken){
@@ -36,7 +40,7 @@ public class UserRepository {
     public Optional<User> password_ch(User user,String password){
         String SQL = "UPDATE user_info SET password = ? WHERE email = ?";
         try{
-            int result = jdbcTemplate.update(SQL,password,user.getEmail());
+            int result = jdbcTemplate.update(SQL, password, user.getEmail());
             if(result>0){
                 return Optional.of(user);
             }
@@ -49,7 +53,7 @@ public class UserRepository {
     public Boolean delete_U(User user){
         String SQL = "DELETE FROM user_info WHERE email=?";
         try{
-            int result = jdbcTemplate.update(SQL,user.getEmail());
+            int result = jdbcTemplate.update(SQL, user.getEmail());
             if(result>0){
                 return true;
             }
@@ -59,7 +63,7 @@ public class UserRepository {
         }
     }
 
-    //true반환 => 중복 false => 중복되지 않음
+    //true반환 => 중복 false => 중복되지 않음 => 밑에거로 바꾸기...
     public Optional<User> email_check(User user){
         String SQL = "SELECT EXISTS(SELECT 1 FROM user_info WHERE email=?)";
         try{

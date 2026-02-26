@@ -21,7 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     //첫번째는 사용자의 요청 받는거
     //두번째는 우리의 응답
     //세번째는 순서 제어 즉, 다음 필터로 유저 보내기
-    protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain filterChain) throws ServletException,IOException{
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException{
         //HTTP에서 토큰 가져오기
         JwtDto.TokenResponse JwtToken = resolveToken(request);
         String path = request.getRequestURI();
@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         //tokenExpired일때는 access 검증 뛰어넘기
-        if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken)==1){
+        if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken) == 1){
             System.out.println("access token 인증 완료");
             Authentication authentication = jwtTokenProvider.getAuthentication(JwtToken.accessToken());
             //토큰 유효성 검사
