@@ -45,7 +45,7 @@ public class CategoryController {
             )
     })
     @GetMapping
-    public ResponseEntity<List<CategoryDto.categoryListResponse>> getCategory(@RequestParam CategoryDto.categoryListRequest ListRequestDto){
+    public ResponseEntity<List<CategoryDto.categoryListResponse>> getCategory(CategoryDto.categoryListRequest ListRequestDto){
         List<CategoryDto.categoryListResponse> categoryList = categoryService.getCategoryList(ListRequestDto.email());
         return ResponseEntity.ok(categoryList);
     }
