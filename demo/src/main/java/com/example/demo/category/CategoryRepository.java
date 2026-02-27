@@ -14,12 +14,14 @@ public class CategoryRepository {
 
     public void addCategory(Category category) {
         String SQL = "INSERT INTO category (userid, name, type) VALUES (?, ?, ?)";
-
-        jdbcTemplate.update(SQL,
-                category.getUserid(),
-                category.getName(),
-                category.getType().name()
-        );
+        try{
+            jdbcTemplate.update(SQL,
+                    category.getUserid(),
+                    category.getName(),
+                    category.getType().name());
+        }catch (Exception e){
+            return;
+        }
     }
 
     public List<CategoryDto.categoryListResponse> getCategory(String email){
