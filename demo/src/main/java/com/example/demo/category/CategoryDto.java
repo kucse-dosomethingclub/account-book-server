@@ -28,9 +28,5 @@ public class CategoryDto {
             @Schema(description = "카테고리 목록 이름", example = "월급")
             String name
     ){}
-
     //이메일를 받아서 카테고리 목록 보여주기
-
-
-
 }
