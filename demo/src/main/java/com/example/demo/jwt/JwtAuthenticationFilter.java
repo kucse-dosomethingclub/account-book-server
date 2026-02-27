@@ -9,9 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
@@ -32,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         //tokenExpired일때는 access 검증 뛰어넘기
         if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken) == 1){
-            System.out.println("access token 인증 완료");
+            log.info("access token 인증 완료");
             Authentication authentication = jwtTokenProvider.getAuthentication(JwtToken.accessToken());
             //토큰 유효성 검사
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -47,14 +49,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request,response);
         //다음으로 넘어가라
-//        else{
-//            //access 재발급 로직
-//            System.out.println("재발급 로직 들어옴");
-//
-//            System.out.println(newAccessToken);
-//
-//        }
-
     }
 
     private JwtDto.TokenResponse resolveToken(HttpServletRequest request){

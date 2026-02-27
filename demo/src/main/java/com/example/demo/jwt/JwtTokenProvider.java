@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Component
 public class JwtTokenProvider {
     private final Key accessKey;
@@ -79,7 +79,7 @@ public class JwtTokenProvider {
             //서명이 있는 토큰은 parseClaimsJws를 사용해야함
             return 1;
         } catch(ExpiredJwtException e){
-            System.out.println("access 토큰 만료");
+            log.info("access Token 만료");
             return 2;
         } catch(Exception e) {
             return 3;
@@ -91,12 +91,12 @@ public class JwtTokenProvider {
         String SQL1 = "SELECT email FROM user_info WHERE refreshToken = ?";
         try {
             if (jdbcTemplate.queryForObject(SQL, Boolean.class,refreshToken)){
-                System.out.println("검증 SQL문 실행");
+                log.info("검즘 SQL문 실행");
                 String email = jdbcTemplate.queryForObject(SQL1, String.class, refreshToken);
                 return createAccessToken(email);
             }
             else{
-                System.out.println("SQL문 거짓");
+                log.info("SQL문 거짓");
                 return null;
             }
         }catch (Exception e){
