@@ -65,7 +65,8 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("Get")
+
+    //@GetMapping("Get")
 
 
 
