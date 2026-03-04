@@ -45,5 +45,10 @@ public class TransactionRepository {
         return transactions;
     }
 
+    public List<Transaction> getCategoryTrans(Long categoryId, Long userId) {
+        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
 
+        List<Transaction> transactions = jdbcTemplate.query(SQL, transactionRowMapper, userId, categoryId);
+        return transactions;
+    }
 }

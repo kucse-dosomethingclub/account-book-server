@@ -48,4 +48,22 @@ public class TransactionService {
                 ))
                 .toList();
     }
+
+    public List<TransactionDto.transactionResponse> getCategoryTrans(Long categoryId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        List<Transaction> transactions = transactionRepository.getCategoryTrans(categoryId, user.getId());
+
+        return transactions.stream()
+                .map(t -> new TransactionDto.transactionResponse(
+                        t.getId(),
+                        t.getAmount(),
+                        t.getTransaction_date(),
+                        t.getCategory_id(),
+                        t.getSource_id(),
+                        t.getMemo()
+                ))
+                .toList();
+    }
 }
