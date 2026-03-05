@@ -49,11 +49,11 @@ public class TransactionService {
                 .toList();
     }
 
-    public List<TransactionDto.transactionResponse> getCategoryTrans(Long categoryId, String email) {
+    public List<TransactionDto.transactionResponse> getCategoryTrans(String categoryName, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        List<Transaction> transactions = transactionRepository.getCategoryTrans(categoryId, user.getId());
+        List<Transaction> transactions = transactionRepository.getCategoryTrans(categoryName, user.getId());
 
         return transactions.stream()
                 .map(t -> new TransactionDto.transactionResponse(

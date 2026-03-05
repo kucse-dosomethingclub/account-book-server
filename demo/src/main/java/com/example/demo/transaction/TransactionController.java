@@ -60,8 +60,8 @@ public class TransactionController {
                     description = "카테고리별 거래내역 불러오기 성공"
             )
     })
-    public ResponseEntity<List<TransactionDto.transactionResponse>> getCategoryTrans(@RequestParam Long CategoryId, @AuthenticationPrincipal String email) {
-        List<TransactionDto.transactionResponse> transactions = transactionService.getCategoryTrans(CategoryId, email);
+    public ResponseEntity<List<TransactionDto.transactionResponse>> getCategoryTrans(@RequestParam String categoryName, @AuthenticationPrincipal String email) {
+        List<TransactionDto.transactionResponse> transactions = transactionService.getCategoryTrans(categoryName, email);
         return ResponseEntity.ok(transactions);
     }
 
