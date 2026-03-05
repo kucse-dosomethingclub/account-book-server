@@ -13,5 +13,4 @@ public class assetsource {
     private Long id;
     private Long userid;
     private String name;
-    private CategoryType type;
 }
