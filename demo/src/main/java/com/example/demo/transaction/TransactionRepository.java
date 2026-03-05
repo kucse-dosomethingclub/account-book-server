@@ -45,10 +45,9 @@ public class TransactionRepository {
         return jdbcTemplate.query(SQL, transactionRowMapper, userId);
     }
 
-    public List<Transaction> getCategoryTrans(String categoryName, Long userId) {
-        String SQL = "SELECT t.id, t.amount, t.transaction_date, t.category_id, t.source_id, t.memo FROM transaction t JOIN category c ON t.category_id = c.id WHERE c.name = ? AND t.userid = ?";
-        //String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
-        return jdbcTemplate.query(SQL, transactionRowMapper, categoryName, userId);
+    public List<Transaction> getCategoryTrans(Long CategoryId, Long userId) {
+        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
+        return jdbcTemplate.query(SQL, transactionRowMapper, userId, CategoryId);
     }
 
     public List<Transaction> getIncomeAmountTrans(Long userid) {
