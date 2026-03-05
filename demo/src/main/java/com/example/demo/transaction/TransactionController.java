@@ -1,5 +1,6 @@
 package com.example.demo.transaction;
 
+import com.example.demo.category.CategoryType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -65,10 +66,20 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-
-    //@GetMapping("Get")
-
-
-
+    @GetMapping("/GetAmount")
+    @Operation(
+            summary = "수익과 지출 필터",
+            description = "수익과 지출을 나누어 거래 내역을 얻어옵니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "수익, 지출 거래내역 불러오기 성공"
+            )
+    })
+    public ResponseEntity<List<TransactionDto.transactionResponse>> getAmountTrans(@RequestParam CategoryType categoryType, @AuthenticationPrincipal String email){
+        List<TransactionDto.transactionResponse> AmountTrans = transactionService.getAmountTrans(categoryType, email);
+        return ResponseEntity.ok(AmountTrans);
+    }
 
 }

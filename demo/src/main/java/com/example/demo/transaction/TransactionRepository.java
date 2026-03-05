@@ -1,5 +1,6 @@
 package com.example.demo.transaction;
 
+import com.example.demo.category.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -48,5 +49,17 @@ public class TransactionRepository {
         String SQL = "SELECT t.id, t.amount, t.transaction_date, t.category_id, t.source_id, t.memo FROM transaction t JOIN category c ON t.category_id = c.id WHERE c.name = ? AND t.userid = ?";
         //String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
         return jdbcTemplate.query(SQL, transactionRowMapper, categoryName, userId);
+    }
+
+    public List<Transaction> getIncomeAmountTrans(Long userid) {
+        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND amount > 0";
+
+        return jdbcTemplate.query(SQL, transactionRowMapper, userid);
+    }
+
+    public List<Transaction> getExpenseAmountTrans(Long userid) {
+        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND amount < 0";
+
+        return jdbcTemplate.query(SQL, transactionRowMapper, userid);
     }
 }
