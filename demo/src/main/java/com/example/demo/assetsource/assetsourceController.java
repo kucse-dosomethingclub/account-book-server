@@ -27,7 +27,7 @@ public class assetsourceController {
             @RequestParam CategoryType type,
             @AuthenticationPrincipal String email) {
 
-        List<assetsourceDto.assetsourceResponse> assets = assetsourceService.getAssetsource(email, type);
+        List<assetsourceDto.assetsourceResponse> assets = assetsourceService.getAssetsource(email);
         return ResponseEntity.ok(assets);
     }
 }

@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 
 public class assetsourceDto {
     public record assetsourceRequest(
-            String name,
-            CategoryType type
+            String name
     ) {}
 
     public record assetsourceResponse(
