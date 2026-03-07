@@ -50,15 +50,4 @@ public class TransactionRepository {
         return jdbcTemplate.query(SQL, transactionRowMapper, userId, CategoryId);
     }
 
-    public List<Transaction> getIncomeAmountTrans(Long userid) {
-        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND amount > 0";
-
-        return jdbcTemplate.query(SQL, transactionRowMapper, userid);
-    }
-
-    public List<Transaction> getExpenseAmountTrans(Long userid) {
-        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND amount < 0";
-
-        return jdbcTemplate.query(SQL, transactionRowMapper, userid);
-    }
 }
