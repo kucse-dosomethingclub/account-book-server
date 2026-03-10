@@ -45,9 +45,15 @@ public class TransactionRepository {
         return jdbcTemplate.query(SQL, transactionRowMapper, userId);
     }
 
-    public List<Transaction> getCategoryTrans(Long CategoryId, Long userId) {
-        String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
-        return jdbcTemplate.query(SQL, transactionRowMapper, userId, CategoryId);
+    public List<Transaction> getTransactions(Long categoryId, Long userId) {
+        String getAllTransSQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ?";
+        String getCategoryTransSQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
+        if(categoryId == 0){
+            return jdbcTemplate.query(getAllTransSQL, transactionRowMapper, userId);
+        }
+        else{
+            return jdbcTemplate.query(getCategoryTransSQL, transactionRowMapper, userId, categoryId);
+        }
     }
 
     public List<Transaction> getIncomeAmountTrans(Long userid) {
@@ -61,6 +67,5 @@ public class TransactionRepository {
 
         return jdbcTemplate.query(SQL, transactionRowMapper, userid);
     }
-
 
 }

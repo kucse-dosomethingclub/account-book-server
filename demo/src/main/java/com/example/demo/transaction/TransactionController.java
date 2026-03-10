@@ -37,36 +37,21 @@ public class TransactionController {
 
     @GetMapping
     @Operation(
-            summary = "전체 거래내역 확인",
-            description = "전체 거래내역을 확인합니다."
+            summary = "거래내역 확인",
+            description = "카테고리 Id에 0이 들어오면 유저의 전체 거래내역을 확인하고," +
+                    "Id에 숫자가 들어오면 그 카테고리에 대한 거래내역을 확인합니다."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "전체 거래내역 불러오기 성공")
+                    description = "거래내역 불러오기 성공")
     })
-    public ResponseEntity<List<TransactionDto.transactionResponse>> getTransactions(@AuthenticationPrincipal String email) {
-        List<TransactionDto.transactionResponse> transactions = transactionService.getTransaction(email);
+    public ResponseEntity<List<TransactionDto.transactionResponse>> getTransactions(@RequestParam Long categoryId, @AuthenticationPrincipal String email) {
+        List<TransactionDto.transactionResponse> transactions = transactionService.getTransactions(categoryId, email);
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("/GetCategory")
-    @Operation(
-            summary = "카테고리별 거래내역 확인",
-            description = "카테고리별 거래내역을 확인합니다."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "카테고리별 거래내역 불러오기 성공"
-            )
-    })
-    public ResponseEntity<List<TransactionDto.transactionResponse>> getCategoryTrans(@RequestParam Long CategoryId, @AuthenticationPrincipal String email) {
-        List<TransactionDto.transactionResponse> transactions = transactionService.getCategoryTrans(CategoryId, email);
-        return ResponseEntity.ok(transactions);
-    }
-
-    @GetMapping("/GetAmount")
+    @GetMapping("/getAmount")
     @Operation(
             summary = "수익과 지출 필터",
             description = "수익과 지출을 나누어 거래 내역을 얻어옵니다."
@@ -78,8 +63,8 @@ public class TransactionController {
             )
     })
     public ResponseEntity<List<TransactionDto.transactionResponse>> getAmountTrans(@RequestParam CategoryType categoryType, @AuthenticationPrincipal String email){
-        List<TransactionDto.transactionResponse> AmountTrans = transactionService.getAmountTrans(categoryType, email);
-        return ResponseEntity.ok(AmountTrans);
+        List<TransactionDto.transactionResponse> amountTrans = transactionService.getAmountTrans(categoryType, email);
+        return ResponseEntity.ok(amountTrans);
     }
 
 }
