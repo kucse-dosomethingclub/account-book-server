@@ -50,11 +50,11 @@ public class TransactionService {
                 .toList();
     }
 
-    public List<TransactionDto.transactionResponse> getCategoryTrans(Long CategoryId, String email) {
+    public List<TransactionDto.transactionResponse> getCategoryTrans(Long categoryId, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        List<Transaction> transactions = transactionRepository.getCategoryTrans(CategoryId, user.getId());
+        List<Transaction> transactions = transactionRepository.getCategoryTrans(categoryId, user.getId());
 
         return transactions.stream()
                 .map(t -> new TransactionDto.transactionResponse(
@@ -73,9 +73,9 @@ public class TransactionService {
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         if(categoryType == CategoryType.INCOME){
-            List<Transaction> IncomeTransactions = transactionRepository
+            List<Transaction> incomeTransactions = transactionRepository
                     .getIncomeAmountTrans(user.getId());
-            return IncomeTransactions.stream()
+            return incomeTransactions.stream()
                     .map(t -> new TransactionDto.transactionResponse(
                             t.getId(),
                             t.getAmount(),
@@ -87,9 +87,9 @@ public class TransactionService {
                     .toList();
         }
         else{
-            List<Transaction> ExpenseTransactions = transactionRepository
+            List<Transaction> expenseTransactions = transactionRepository
                     .getExpenseAmountTrans(user.getId());
-            return ExpenseTransactions.stream()
+            return expenseTransactions.stream()
                     .map(t -> new TransactionDto.transactionResponse(
                             t.getId(),
                             t.getAmount(),
