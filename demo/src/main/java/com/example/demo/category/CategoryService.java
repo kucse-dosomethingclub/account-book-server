@@ -18,7 +18,6 @@ public class CategoryService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         return categoryRepository.getCategory(email);
-
     }
 
     public void addCategory(CategoryDto.categoryRequest categoryDto, String userEmail) {
@@ -30,7 +29,6 @@ public class CategoryService {
                 .name(categoryDto.name())
                 .type(categoryDto.type())
                 .build();
-
         categoryRepository.addCategory(category);
     }
 

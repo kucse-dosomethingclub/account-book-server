@@ -67,7 +67,7 @@ public class UserRepository {
     public Optional<User> email_check(User user){
         String SQL = "SELECT EXISTS(SELECT 1 FROM user_info WHERE email=?)";
         try{
-            if(!jdbcTemplate.queryForObject(SQL,Boolean.class,user.getEmail())){
+            if(Boolean.FALSE.equals(jdbcTemplate.queryForObject(SQL, Boolean.class, user.getEmail()))){
                 return Optional.of(user);
             }
             else{
