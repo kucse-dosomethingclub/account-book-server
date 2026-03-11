@@ -50,7 +50,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("/GetCategory")
+    @GetMapping("/getCategory")
     @Operation(
             summary = "카테고리별 거래내역 확인",
             description = "카테고리별 거래내역을 확인합니다."
@@ -61,12 +61,12 @@ public class TransactionController {
                     description = "카테고리별 거래내역 불러오기 성공"
             )
     })
-    public ResponseEntity<List<TransactionDto.transactionResponse>> getCategoryTrans(@RequestParam Long CategoryId, @AuthenticationPrincipal String email) {
-        List<TransactionDto.transactionResponse> transactions = transactionService.getCategoryTrans(CategoryId, email);
+    public ResponseEntity<List<TransactionDto.transactionResponse>> getCategoryTrans(@RequestParam Long categoryId, @AuthenticationPrincipal String email) {
+        List<TransactionDto.transactionResponse> transactions = transactionService.getCategoryTrans(categoryId, email);
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("/GetAmount")
+    @GetMapping("/getAmount")
     @Operation(
             summary = "수익과 지출 필터",
             description = "수익과 지출을 나누어 거래 내역을 얻어옵니다."
@@ -78,8 +78,8 @@ public class TransactionController {
             )
     })
     public ResponseEntity<List<TransactionDto.transactionResponse>> getAmountTrans(@RequestParam CategoryType categoryType, @AuthenticationPrincipal String email){
-        List<TransactionDto.transactionResponse> AmountTrans = transactionService.getAmountTrans(categoryType, email);
-        return ResponseEntity.ok(AmountTrans);
+        List<TransactionDto.transactionResponse> amountTrans = transactionService.getAmountTrans(categoryType, email);
+        return ResponseEntity.ok(amountTrans);
     }
 
 }
