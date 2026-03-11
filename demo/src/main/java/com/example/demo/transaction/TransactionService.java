@@ -67,9 +67,9 @@ public class TransactionService {
                             t.getMemo()
                     ))
                     .toList();
-        }
-        else{
-            List<Transaction> expenseTransactions = transactionRepository
+
+        }else{
+            List<Transaction> ExpenseTransactions = transactionRepository
                     .getExpenseAmountTrans(user.getId());
             return expenseTransactions.stream()
                     .map(t -> new TransactionDto.transactionResponse(
