@@ -85,8 +85,7 @@ public class TransactionService {
                             t.getMemo()
                     ))
                     .toList();
-        }
-        else{
+        }else{
             List<Transaction> ExpenseTransactions = transactionRepository
                     .getExpenseAmountTrans(user.getId());
             return ExpenseTransactions.stream()
