@@ -11,6 +11,7 @@ import java.util.List;
 public class CategoryRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private static final String GET_CATEGORY_BY_ID = "SELECT * FROM category WHERE id = ?";
 
     public void addCategory(Category category) {
         String SQL = "INSERT INTO category (userid, name, type) VALUES (?, ?, ?)";
@@ -30,5 +31,22 @@ public class CategoryRepository {
                 rs.getLong("id"),
                 rs.getString("name")
         ), email);
+    }
+
+    // 카테고리ID로 카테고리를 조회
+    public Category getCategoryById(Long categoryId) {
+        return jdbcTemplate.queryForObject(GET_CATEGORY_BY_ID, (rs, rowNum) -> {
+            Category category = new Category();
+            category.setId(rs.getLong("id"));
+            category.setUserid(rs.getLong("userid"));
+            category.setName(rs.getString("name"));
+            category.setType(CategoryType.valueOf(rs.getString("type")));
+            return category;
+        }, categoryId);
+    }
+
+    // 본인의 카테고리가 맞는지 확인
+    public boolean isCategoryOwner(Long categoryId, Long userId) {
+        return getCategoryById(categoryId).getUserid().equals(userId);
     }
 }

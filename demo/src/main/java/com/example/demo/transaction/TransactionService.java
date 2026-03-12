@@ -1,5 +1,8 @@
 package com.example.demo.transaction;
 
+import com.example.demo.assetsource.assetsourceRepository;
+import com.example.demo.category.Category;
+import com.example.demo.category.CategoryRepository;
 import com.example.demo.category.CategoryType;
 import com.example.demo.user.User;
 import com.example.demo.user.UserRepository;
@@ -15,10 +18,22 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final assetsourceRepository assetsourceRepository;
 
     public void saveTransaction(TransactionDto.transactionRequest transactionDto, String userEmail) {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+
+        boolean isCategoryOwner = categoryRepository.isCategoryOwner(transactionDto.categoryId(), user.getId()); // 본인 카테고리 여부 조회
+        if(!isCategoryOwner) {
+            throw new IllegalArgumentException("본인의 카테고리에만 내역을 추가할 수 있습니다.");
+        }
+
+        boolean isAssetsourceOwner = assetsourceRepository.isAssetsourceOwner(transactionDto.sourceId(), user.getId()); // 본인 자금출처 여부 조회
+        if(!isAssetsourceOwner) {
+            throw new IllegalArgumentException("본인의 자금출처에만 내역을 추가할 수 있습니다.");
+        }
 
         Transaction transaction = Transaction.builder()
                 .userid(user.getId())

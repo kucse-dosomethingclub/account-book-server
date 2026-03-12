@@ -21,18 +21,18 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @PostMapping("/new")
-    @Operation(
-            summary = "거래내역 추가",
-            description = "거래내역을 추가합니다."
-    )
+    @Operation(summary = "거래내역 추가", description = "거래내역을 추가합니다.")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "거래내역 추가 성공")
+            @ApiResponse(responseCode = "201", description = "거래내역 추가 성공"),
+            @ApiResponse(responseCode = "403", description = "거래내역 추가 실패")
     })
     public ResponseEntity<String> newTransaction(@RequestBody TransactionDto.transactionRequest requestDto, @AuthenticationPrincipal String email) {
-        transactionService.saveTransaction(requestDto, email);
-        return ResponseEntity.status(HttpStatus.CREATED).body("가계부 내역이 저장되었습니다.");
+        try {
+            transactionService.saveTransaction(requestDto, email);
+            return ResponseEntity.status(HttpStatus.CREATED).body("가계부 내역이 저장되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
     }
 
     @GetMapping
