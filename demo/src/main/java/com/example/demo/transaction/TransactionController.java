@@ -67,4 +67,21 @@ public class TransactionController {
         return ResponseEntity.ok(amountTrans);
     }
 
+    @GetMapping("/byAssetId")
+    @Operation(
+            summary = "자산 ID로 내역 조회",
+            description = "개인 자산 ID를 기준으로 거래 내역을 조회합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "거래내역 조회 성공"
+            )
+    })
+    public ResponseEntity<List<TransactionDto.transactionResponse>> getByAssetId(@RequestParam Long assetId,
+                                                                                 @AuthenticationPrincipal String email) {
+        List<TransactionDto.transactionResponse> assetTrans = transactionService.getByAssetId(assetId, email);
+        return ResponseEntity.ok(assetTrans);
+    }
+
 }
