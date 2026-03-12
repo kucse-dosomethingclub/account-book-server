@@ -68,4 +68,8 @@ public class TransactionRepository {
         return jdbcTemplate.query(SQL, transactionRowMapper, userid);
     }
 
+    public List<Transaction> getByAssetId(Long assetId, Long userid) {
+        String getByAssetIdSQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND source_id = ?";
+        return jdbcTemplate.query(getByAssetIdSQL, transactionRowMapper, userid, assetId);
+    }
 }

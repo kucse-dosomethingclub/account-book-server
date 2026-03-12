@@ -69,7 +69,7 @@ public class TransactionService {
                     .toList();
 
         }else{
-            List<Transaction> ExpenseTransactions = transactionRepository
+            List<Transaction> expenseTransactions = transactionRepository
                     .getExpenseAmountTrans(user.getId());
             return expenseTransactions.stream()
                     .map(t -> new TransactionDto.transactionResponse(
@@ -82,6 +82,24 @@ public class TransactionService {
                     ))
                     .toList();
         }
+    }
+
+    public List<TransactionDto.transactionResponse> getByAssetId(Long assetId, String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException(("사용자를 찾을 수 없습니다.")));
+
+        List<Transaction> transactions = transactionRepository.getByAssetId(assetId, user.getId());
+
+        return transactions.stream()
+                .map(t -> new TransactionDto.transactionResponse(
+                        t.getId(),
+                        t.getAmount(),
+                        t.getTransaction_date(),
+                        t.getCategory_id(),
+                        t.getSource_id(),
+                        t.getMemo()
+                ))
+                .toList();
     }
 
 }
