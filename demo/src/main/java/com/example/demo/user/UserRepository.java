@@ -15,13 +15,13 @@ public class UserRepository {
 
     public void saveUser(User user) {
         String SQL = "INSERT INTO user_info (email, username, password) VALUES (?, ?, ?)";
-        try{
+        try {
             jdbcTemplate.update(SQL,
                     user.getEmail(),
                     user.getUsername(),
                     user.getPassword()
             );
-        }catch (Exception e){
+        } catch (Exception e) {
             return;
         }
 
@@ -29,9 +29,9 @@ public class UserRepository {
 
     public void login(String email, String refreshToken){
         String SQL = "UPDATE user_info SET refreshtoken = ? WHERE email = ?";
-        try{
+        try {
             jdbcTemplate.update(SQL, refreshToken, email);
-        }catch (Exception e){
+        } catch (Exception e) {
             return;
         }
 
@@ -39,26 +39,26 @@ public class UserRepository {
 
     public Optional<User> password_ch(User user,String password){
         String SQL = "UPDATE user_info SET password = ? WHERE email = ?";
-        try{
+        try {
             int result = jdbcTemplate.update(SQL, password, user.getEmail());
-            if(result>0){
+            if (result>0) {
                 return Optional.of(user);
             }
             return Optional.empty();
-        }catch (Exception e){
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
 
     public Boolean delete_U(User user){
         String SQL = "DELETE FROM user_info WHERE email=?";
-        try{
+        try {
             int result = jdbcTemplate.update(SQL, user.getEmail());
-            if(result>0){
+            if (result>0) {
                 return true;
             }
             return false;
-        }catch(Exception e){
+        } catch(Exception e) {
             return false;
         }
     }
@@ -66,15 +66,14 @@ public class UserRepository {
     //true반환 => 중복 false => 중복되지 않음 => 밑에거로 바꾸기...
     public Optional<User> email_check(User user){
         String SQL = "SELECT EXISTS(SELECT 1 FROM user_info WHERE email=?)";
-        try{
-            if(Boolean.FALSE.equals(jdbcTemplate.queryForObject(SQL, Boolean.class, user.getEmail()))){
+        try {
+            if (Boolean.FALSE.equals(jdbcTemplate.queryForObject(SQL, Boolean.class, user.getEmail()))) {
                 return Optional.of(user);
-            }
-            else{
+            } else {
                 return Optional.empty();
             }
 
-        }catch(Exception e){
+        } catch(Exception e) {
             //예외처리가 될 수 있으니 콘솔로 찍어서 확인하기
             return Optional.empty();
         }

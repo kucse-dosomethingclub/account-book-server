@@ -83,5 +83,4 @@ public class TransactionController {
         List<TransactionDto.transactionResponse> assetTrans = transactionService.getByAssetId(assetId, email);
         return ResponseEntity.ok(assetTrans);
     }
-
 }

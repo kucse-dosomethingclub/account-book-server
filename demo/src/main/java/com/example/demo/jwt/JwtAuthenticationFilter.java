@@ -28,19 +28,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         JwtDto.TokenResponse JwtToken = resolveToken(request);
         String path = request.getRequestURI();
         //URI는 순수 경로만 뽑아서 준다. 즉, /user/login 처럼 이것만 뽑아서 path에 준다.
-        if(path.startsWith("/api/tokenExpired")){
+        if (path.startsWith("/api/tokenExpired")) {
             filterChain.doFilter(request, response);
             return;
         }
         //tokenExpired일때는 access 검증 뛰어넘기
-        if(JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken) == 1){
+        if (JwtToken != null && jwtTokenProvider.validationAccessToken(JwtToken) == 1) {
             log.info("access token 인증 완료");
             Authentication authentication = jwtTokenProvider.getAuthentication(JwtToken.accessToken());
             //토큰 유효성 검사
             SecurityContextHolder.getContext().setAuthentication(authentication);
             //스프링 서큐리티에 접속자 저장
-        }
-        else if(jwtTokenProvider.validationAccessToken(JwtToken)==2){
+        } else if (jwtTokenProvider.validationAccessToken(JwtToken)==2) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType("application/json;charest=UTF-8");
             String errormessage = "{\"status\": 600, \"message\":\"access token expired\"}";
@@ -55,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String accessToken = request.getHeader("Authorization");
         String refreshToken = request.getHeader("Authorization_refresh");
         //헤더에서 Authorization에 해당하는거 가져옴
-        if(StringUtils.hasText(accessToken) && StringUtils.hasText(refreshToken) && accessToken.startsWith("Bearer ")){
+        if (StringUtils.hasText(accessToken) && StringUtils.hasText(refreshToken) && accessToken.startsWith("Bearer ")) {
             return new JwtDto.TokenResponse(accessToken.substring(7),refreshToken);
             //7부터 끝까지 가져와라
         }

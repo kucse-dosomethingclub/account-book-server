@@ -26,12 +26,12 @@ public class TransactionService {
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         boolean isCategoryOwner = categoryRepository.isCategoryOwner(transactionDto.categoryId(), user.getId()); // 본인 카테고리 여부 조회
-        if(!isCategoryOwner) {
+        if (!isCategoryOwner) {
             throw new IllegalArgumentException("본인의 카테고리에만 내역을 추가할 수 있습니다.");
         }
 
         boolean isAssetsourceOwner = assetsourceRepository.isAssetsourceOwner(transactionDto.sourceId(), user.getId()); // 본인 자금출처 여부 조회
-        if(!isAssetsourceOwner) {
+        if (!isAssetsourceOwner) {
             throw new IllegalArgumentException("본인의 자금출처에만 내역을 추가할 수 있습니다.");
         }
 
@@ -69,7 +69,7 @@ public class TransactionService {
         User user =userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        if(categoryType == CategoryType.INCOME){
+        if (categoryType == CategoryType.INCOME){
             List<Transaction> incomeTransactions = transactionRepository
                     .getIncomeAmountTrans(user.getId());
             return incomeTransactions.stream()
@@ -82,8 +82,7 @@ public class TransactionService {
                             t.getMemo()
                     ))
                     .toList();
-
-        }else{
+        } else {
             List<Transaction> expenseTransactions = transactionRepository
                     .getExpenseAmountTrans(user.getId());
             return expenseTransactions.stream()
@@ -116,5 +115,4 @@ public class TransactionService {
                 ))
                 .toList();
     }
-
 }

@@ -31,10 +31,10 @@ public class UserController {
                     description = "회원가입 성공")
     })
     public ResponseEntity<?> signup(@RequestBody User user) {
-        try{
+        try {
             User sigunupUser = userService.signUp(user);
             return ResponseEntity.ok(user);
-        }catch(IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -79,11 +79,11 @@ public class UserController {
     })
     public ResponseEntity<?> tokenExpired(HttpServletRequest request){
         String refreshToken = request.getHeader("Authorization_refresh");
-        try{
+        try {
             JwtDto.TokenResponse newtoken = userService.newToken(refreshToken);
             UserDto.accessTokenResponse ResponseDto = new UserDto.accessTokenResponse(newtoken.accessToken());
             return ResponseEntity.ok(ResponseDto);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -97,7 +97,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "비밀번호 변경 성공")
     })
     public ResponseEntity<?> password_change(@RequestBody UserDto.LoginRequest request){
-        try{
+        try {
             User user = userService.psaaword_change(request);
             return ResponseEntity.ok(user);
         } catch (Exception e) {
@@ -115,7 +115,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "유저 삭제 성공")
     })
     public ResponseEntity<?> delete_user(@RequestBody UserDto.LoginRequest request){
-        try{
+        try {
             java.lang.Boolean delete = userService.delete_user(request);
             if (delete) {
                 return ResponseEntity.ok(delete);

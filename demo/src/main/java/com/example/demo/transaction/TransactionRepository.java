@@ -41,30 +41,26 @@ public class TransactionRepository {
 
     public List<Transaction> getTransactions(Long userId) {
         String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ?";
-
         return jdbcTemplate.query(SQL, transactionRowMapper, userId);
     }
 
     public List<Transaction> getTransactions(Long categoryId, Long userId) {
         String getAllTransSQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ?";
         String getCategoryTransSQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND category_id = ?";
-        if(categoryId == 0){
+        if (categoryId == 0) {
             return jdbcTemplate.query(getAllTransSQL, transactionRowMapper, userId);
-        }
-        else{
+        } else {
             return jdbcTemplate.query(getCategoryTransSQL, transactionRowMapper, userId, categoryId);
         }
     }
 
     public List<Transaction> getIncomeAmountTrans(Long userid) {
         String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND amount > 0";
-
         return jdbcTemplate.query(SQL, transactionRowMapper, userid);
     }
 
     public List<Transaction> getExpenseAmountTrans(Long userid) {
         String SQL = "SELECT id, amount, transaction_date, category_id, source_id, memo FROM transaction WHERE userid = ? AND amount < 0";
-
         return jdbcTemplate.query(SQL, transactionRowMapper, userid);
     }
 
