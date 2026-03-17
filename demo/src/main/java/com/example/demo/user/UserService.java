@@ -29,7 +29,7 @@ public class UserService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 이메일입니다."));
 
-        if(!passwordEncoder.matches(request.password(),  user.getPassword())) {
+        if (!passwordEncoder.matches(request.password(),  user.getPassword())) {
             throw new IllegalArgumentException("이메일 또는 비밀번호가 일치하지 않습니다.");
         }
         user.setPassword(null);
@@ -57,7 +57,7 @@ public class UserService {
         User user = userRepository.findByEmail(request.email())
                 .orElseThrow(()-> new IllegalArgumentException("가입되지 않은 이메일입니다."));
         Boolean delete = userRepository.delete_U(user);
-        if(delete){
+        if (delete) {
             return true;
         }
         return false;
@@ -67,7 +67,7 @@ public class UserService {
 
         String newAccessToken = jwtTokenProvider.validationRefreshToken(refreshToken);
         JwtDto.TokenResponse newJwtToken = null;
-        if(newAccessToken != null){
+        if (newAccessToken != null) {
             newJwtToken = new JwtDto.TokenResponse(newAccessToken, refreshToken);
         }
         return newJwtToken;

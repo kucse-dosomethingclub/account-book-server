@@ -30,13 +30,4 @@ public class UserDto {
             @Schema(description = "재발급된 access 토큰")
             String accessToken
     ){}
-
-//    @Schema(description = "일반 엔드포인트 접근 형식")
-//    public record normalRequest(
-//            @Schema(description = "access 토큰")
-//            String accessToken,
-//
-//            @Schema(description = "refresh 토큰")
-//            String refreshToken
-//    ){}
 }
