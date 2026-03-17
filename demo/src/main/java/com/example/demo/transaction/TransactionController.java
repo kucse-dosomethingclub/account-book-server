@@ -51,7 +51,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("/getAmount")
+    @GetMapping("/Amount")
     @Operation(
             summary = "수익과 지출 필터",
             description = "수익과 지출을 나누어 거래 내역을 얻어옵니다."
