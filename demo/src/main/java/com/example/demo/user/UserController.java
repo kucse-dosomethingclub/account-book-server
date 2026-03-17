@@ -32,8 +32,8 @@ public class UserController {
     })
     public ResponseEntity<?> signup(@RequestBody User user) {
         try {
-            User sigunupUser = userService.signUp(user);
-            return ResponseEntity.ok(user);
+            User signupUser = userService.signUp(user);
+            return ResponseEntity.ok(signupUser);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
