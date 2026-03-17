@@ -15,12 +15,12 @@ public class CategoryRepository {
 
     public void addCategory(Category category) {
         String SQL = "INSERT INTO category (userid, name, type) VALUES (?, ?, ?)";
-        try{
+        try {
             jdbcTemplate.update(SQL,
                     category.getUserid(),
                     category.getName(),
                     category.getType().name());
-        }catch (Exception e){
+        } catch (Exception e) {
             return;
         }
     }
